@@ -143,7 +143,7 @@ export const makeGlobalChonkyStyles = <C extends string = string>(
     };
 
     // @ts-ignore
-    const useStyles = createUseStyles<ChonkyTheme, C>(makeGlobalStyles as any);
+    const useStyles = createUseStyles<any, C>(theme);
     return (...args: any[]): any => {
         const styles = useStyles(...args);
         const classes = {};
