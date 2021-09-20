@@ -73,9 +73,7 @@ export const lightTheme = {
     },
 };
 
-export type ChonkyTheme = typeof lightTheme;
-
-export const darkThemeOverride: DeepPartial<ChonkyTheme> = {
+export const darkThemeOverride = {
     gridFileEntry: {
         fileColorTint: 'rgba(50, 50, 50, 0.4)',
         folderBackColorTint: 'rgba(50, 50, 50, 0.4)',
@@ -83,7 +81,7 @@ export const darkThemeOverride: DeepPartial<ChonkyTheme> = {
     },
 };
 
-export const mobileThemeOverride: DeepPartial<ChonkyTheme> = {
+export const mobileThemeOverride = {
     fontSizes: {
         rootPrimary: 13,
     },
@@ -109,7 +107,7 @@ export const useIsMobileBreakpoint = () => {
     return useMediaQuery('(max-width:480px)');
 };
 
-export const getStripeGradient = (colorOne: string, colorTwo: string) =>
+export const getStripeGradient = (colorOne, colorTwo) =>
     'repeating-linear-gradient(' +
     '45deg,' +
     `${colorOne},` +
@@ -118,17 +116,15 @@ export const getStripeGradient = (colorOne: string, colorTwo: string) =>
     `${colorTwo} 20px` +
     ')';
 
-export const makeLocalChonkyStyles = <C extends string = string>(
-    styles: (theme: ChonkyTheme & MuiTheme) => any
+export const makeLocalChonkyStyles = (
+    styles
     // @ts-ignore
-): any => createUseStyles<ChonkyTheme, C>(styles);
+) => createUseStyles(styles);
 
-export const makeGlobalChonkyStyles = <C extends string = string>(
-    makeStyles: (theme: ChonkyTheme & MuiTheme) => any
-) => {
+export const makeGlobalChonkyStyles = makeStyles => {
     const selectorMapping = {};
-    const makeGlobalStyles = (theme: ChonkyTheme) => {
-        const localStyles = makeStyles(theme as any);
+    const makeGlobalStyles = theme => {
+        const localStyles = makeStyles(theme);
         const globalStyles = {};
         const localSelectors = Object.keys(localStyles);
         localSelectors.map(localSelector => {
@@ -143,8 +139,9 @@ export const makeGlobalChonkyStyles = <C extends string = string>(
     };
 
     // @ts-ignore
-    const useStyles = createUseStyles<any, C>(theme);
-    return (...args: any[]): any => {
+    const useStyles = createUseStyles(makeGlobalStyles);
+    return (...args) => {
+        // @ts-ignore
         const styles = useStyles(...args);
         const classes = {};
         Object.keys(selectorMapping).map(localSelector => {
@@ -155,6 +152,6 @@ export const makeGlobalChonkyStyles = <C extends string = string>(
     };
 };
 
-export const important = <T>(value: T) => [value, '!important'];
+export const important = value => [value, '!important'];
 
 export const c = classnames;

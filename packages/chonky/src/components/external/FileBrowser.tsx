@@ -70,7 +70,8 @@ export const FileBrowser = React.forwardRef<
         });
         const combinedTheme = merge(
             muiTheme,
-            merge(lightTheme, darkMode ? darkThemeOverride : {})
+            merge(lightTheme, darkMode ? darkThemeOverride : {}),
+            (props as any).theme
         );
         return isMobileBreakpoint
             ? merge(combinedTheme, mobileThemeOverride)
