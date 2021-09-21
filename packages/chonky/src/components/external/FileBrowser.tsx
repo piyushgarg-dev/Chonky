@@ -1,6 +1,7 @@
 import {
     createMuiTheme,
     ThemeProvider as MuiThemeProvider,
+    StylesProvider, createGenerateClassName
 } from '@material-ui/core/styles';
 import merge from 'deepmerge';
 import React, { ReactNode, useMemo } from 'react';
@@ -84,12 +85,15 @@ export const FileBrowser = React.forwardRef<
             <ChonkyPresentationLayer>{children}</ChonkyPresentationLayer>
         </>
     );
+    const generateClassName = createGenerateClassName({
+        productionPrefix: 'chonky-',
+      });
 
     return (
         <IntlProvider locale="en" defaultLocale="en" {...i18n}>
             <ChonkyFormattersContext.Provider value={formatters}>
                 <ReduxProvider store={store}>
-                    <ThemeProvider theme={theme}>
+                    <StylesProvider  generateClassName={generateClassName}>
                         <MuiThemeProvider theme={theme}>
                             <ChonkyIconContext.Provider
                                 value={
@@ -107,7 +111,7 @@ export const FileBrowser = React.forwardRef<
                                 )}
                             </ChonkyIconContext.Provider>
                         </MuiThemeProvider>
-                    </ThemeProvider>
+                    </StylesProvider>
                 </ReduxProvider>
             </ChonkyFormattersContext.Provider>
         </IntlProvider>

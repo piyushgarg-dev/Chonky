@@ -1,6 +1,7 @@
 import { Theme as MuiTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import classnames from 'classnames';
+import { makeStyles } from '@material-ui/core/styles';
 import { createUseStyles } from 'react-jss';
 import { DeepPartial } from 'tsdef';
 
@@ -119,10 +120,10 @@ export const getStripeGradient = (colorOne, colorTwo) =>
 export const makeLocalChonkyStyles = (
     styles
     // @ts-ignore
-) => createUseStyles(styles);
+) => makeStyles(styles);
 
 export const makeGlobalChonkyStyles = makeStyles => {
-    const selectorMapping = {};
+    {/*const selectorMapping = {};
     const makeGlobalStyles = theme => {
         const localStyles = makeStyles(theme);
         const globalStyles = {};
@@ -149,7 +150,8 @@ export const makeGlobalChonkyStyles = makeStyles => {
             classes[localSelector] = selectorMapping[localSelector];
         });
         return { ...classes, ...styles };
-    };
+    };*/}
+    return makeStyles
 };
 
 export const important = value => [value, '!important'];
